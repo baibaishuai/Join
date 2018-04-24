@@ -38,6 +38,7 @@ public class FindActivity extends AppCompatActivity {
     private TextView tv_remark;
     private Button btn_join;
     private User user;
+    private User user1;
     private Need need;
     private ImageView icon_back;
     public static final MediaType JSON=MediaType.parse("application/json; charset=utf-8");
