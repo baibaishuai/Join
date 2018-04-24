@@ -9,12 +9,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lhf.join.Bean.Stadium;
 import com.lhf.join.Bean.User;
 import com.lhf.join.R;
+import com.sackcentury.shinebuttonlib.ShineButton;
+
+import butterknife.ButterKnife;
 
 public class StadiumActivity extends AppCompatActivity {
     private TextView tv;
@@ -31,6 +35,7 @@ public class StadiumActivity extends AppCompatActivity {
     private RatingBar ratingBar;
     private Button btn_order;
     private User user;
+    private ShineButton shineButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +61,8 @@ public class StadiumActivity extends AppCompatActivity {
         tv_adress = findViewById(R.id.tv_adress);
         ratingBar = findViewById(R.id.ratbar);
         btn_order = findViewById(R.id.btn_order);
+        shineButton = findViewById(R.id.po_image3);
+
         getWindow().setStatusBarColor(Color.parseColor("#FF029ACC"));
 
     }
@@ -101,6 +108,16 @@ public class StadiumActivity extends AppCompatActivity {
                 mBundle.putSerializable("stadium", stadium);
                 intent.putExtras(mBundle);
                 startActivity(intent);
+            }
+        });
+        ButterKnife.bind(this);
+        if (shineButton != null)
+            shineButton.init(this);
+        shineButton.setShineTurnAngle(1);
+        shineButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(StadiumActivity.this, "收藏", Toast.LENGTH_SHORT).show();
             }
         });
 
