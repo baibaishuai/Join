@@ -32,6 +32,9 @@ public class Constant {
     public static String URL_FINDINFORMATION = URL+"FindInformation_Servlet";
     public static String URL_UPDATEPASSWORD = URL+"UpdatePassword_Servlet";
     public static String URL_JOINFIND = URL+"JoinFind_Servlet";
+    public static String URL_INSERTCOLLECTION = URL+"InsertCollection_Servlet";
+    public static String URL_DELETECOLLECTION = URL+"DeleteCollection_Servlet";
+    public static String URL_ISCOLLECTED = URL+"IsCollected_Servlet";
 
 
 }

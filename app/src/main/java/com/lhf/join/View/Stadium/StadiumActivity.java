@@ -2,8 +2,10 @@ package com.lhf.join.View.Stadium;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -16,12 +18,33 @@ import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.lhf.join.Adapter.StadiumAdapter;
 import com.lhf.join.Bean.Stadium;
 import com.lhf.join.Bean.User;
 import com.lhf.join.R;
+import com.lhf.join.View.Find.InsertNeedActivity;
 import com.sackcentury.shinebuttonlib.ShineButton;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.ButterKnife;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+import static com.lhf.join.Constant.Constant.URL_DELETECOLLECTION;
+import static com.lhf.join.Constant.Constant.URL_INSERTCOLLECTION;
+import static com.lhf.join.Constant.Constant.URL_ISCOLLECTED;
+import static com.lhf.join.Constant.Constant.URL_PICTURE;
+import static com.lhf.join.Constant.Constant.URL_SEARCHSTADIUM;
 
 public class StadiumActivity extends AppCompatActivity {
     private TextView tv;
@@ -38,8 +61,9 @@ public class StadiumActivity extends AppCompatActivity {
     private RatingBar ratingBar;
     private Button btn_order;
     private User user;
+    private int collect = 0;
     private ToggleButton shineButton;
-    private boolean isCollected = false;
+    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +96,9 @@ public class StadiumActivity extends AppCompatActivity {
     }
 
     private void initdata() {
+        shineButton.setChecked(true);
         user = (User) getIntent().getSerializableExtra("user");
+        isCollectd(stadium.getStadiumId(), user.getUserId());
         System.out.println("userId:" + user.getUserId());
         icon_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,21 +140,141 @@ public class StadiumActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        shineButton.setChecked(true);
         shineButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(buttonView.isChecked()){
+                if (buttonView.isChecked()) {
+                    if (collect == 1) {
+                        collect(stadium.getStadiumId(), user.getUserId(), true);
+                    } else {
 
-                }else {
+                    }
+                } else {
+                    if (collect == 1) {
+                        collect(stadium.getStadiumId(), user.getUserId(), false);
+                    } else {
 
+                    }
                 }
             }
         });
 
 
-
     }
 
+    private void collect(int stadiunmId, int userId, boolean flag) {
+        String SearchUrl = null;
+        if (flag) {
+            SearchUrl = URL_INSERTCOLLECTION;
+        } else {
+            SearchUrl = URL_DELETECOLLECTION;
+        }
+        new insertCollectionAsyncTask().execute(SearchUrl, String.valueOf(stadiunmId), String.valueOf(userId));
+    }
 
+    private class insertCollectionAsyncTask extends AsyncTask<String, Integer, String> {
+        public insertCollectionAsyncTask() {
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            Response response = null;
+            String results = null;
+            JSONObject json = new JSONObject();
+            try {
+                json.put("stadiumId", params[1]);
+                json.put("userId", params[2]);
+                OkHttpClient okHttpClient = new OkHttpClient();
+                RequestBody requestBody = RequestBody.create(JSON, String.valueOf(json));
+                Request request = new Request.Builder()
+                        .url(params[0])
+                        .post(requestBody)
+                        .build();
+                response = okHttpClient.newCall(request).execute();
+                results = response.body().string();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return results;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            System.out.println("返回的数据：" + s);
+            if (!"".equals(s)) {
+                try {
+                    JSONObject results = new JSONObject(s);
+                    String loginresult = results.getString("result");
+                    if (loginresult.equals("1")) {
+                        Toast.makeText(StadiumActivity.this, "收藏成功", Toast.LENGTH_SHORT).show();
+                    } else if (loginresult.equals("2")) {
+                        Toast.makeText(StadiumActivity.this, "取消收藏", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(StadiumActivity.this, "系统异常", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                System.out.println("结果为空");
+            }
+        }
+    }
+
+    private void isCollectd(int stadiunmId, int userId) {
+        collect = collect + 1;
+        String SearchUrl = URL_ISCOLLECTED;
+        new isCollectionAsyncTask().execute(SearchUrl, String.valueOf(stadiunmId), String.valueOf(userId));
+    }
+
+    private class isCollectionAsyncTask extends AsyncTask<String, Integer, String> {
+        public isCollectionAsyncTask() {
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            Response response = null;
+            String results = null;
+            JSONObject json = new JSONObject();
+            try {
+                json.put("stadiumId", params[1]);
+                json.put("userId", params[2]);
+                OkHttpClient okHttpClient = new OkHttpClient();
+                RequestBody requestBody = RequestBody.create(JSON, String.valueOf(json));
+                Request request = new Request.Builder()
+                        .url(params[0])
+                        .post(requestBody)
+                        .build();
+                response = okHttpClient.newCall(request).execute();
+                results = response.body().string();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return results;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            System.out.println("返回的数据：" + s);
+            if (!"".equals(s)) {
+                try {
+                    JSONObject results = new JSONObject(s);
+                    String loginresult = results.getString("result");
+                    if (loginresult.equals("1")) {
+                        shineButton.setChecked(false);
+                    } else {
+                        shineButton.setChecked(true);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                System.out.println("结果为空");
+            }
+        }
+    }
 }
