@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -35,7 +38,8 @@ public class StadiumActivity extends AppCompatActivity {
     private RatingBar ratingBar;
     private Button btn_order;
     private User user;
-    private ShineButton shineButton;
+    private ToggleButton shineButton;
+    private boolean isCollected = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,16 +114,18 @@ public class StadiumActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        ButterKnife.bind(this);
-        if (shineButton != null)
-            shineButton.init(this);
-        shineButton.setShineTurnAngle(1);
-        shineButton.setOnClickListener(new View.OnClickListener() {
+        shineButton.setChecked(true);
+        shineButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                Toast.makeText(StadiumActivity.this, "收藏", Toast.LENGTH_SHORT).show();
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(buttonView.isChecked()){
+
+                }else {
+
+                }
             }
         });
+
 
 
     }

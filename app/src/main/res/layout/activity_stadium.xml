@@ -52,16 +52,13 @@
             android:layout_gravity="center"
             android:layout_height="wrap_content"
             android:layout_weight="2">
-            <com.sackcentury.shinebuttonlib.ShineButton
+            <ToggleButton
+                android:textOff=""
+                android:textOn=""
+                android:background="@drawable/btn_collect"
                 android:id="@+id/po_image3"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_centerInParent="true"
-                app:btn_color="@android:color/white"
-                app:btn_fill_color="#f52525"
-                app:enable_flashing="true"
-                app:shine_size="40dp"
-                app:siShape="@raw/star"/>
+                android:layout_width="30dp"
+                android:layout_height="30dp" />
 
         </LinearLayout>
 
