@@ -42,6 +42,7 @@ public class FindAdapter extends FixedRecyclerView.Adapter<FindAdapter.ViewHolde
     private List<Need> mNeedlist;
     private Context mContext;
     private User mUser;
+    private boolean mi;
     //    private User mUser;
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
@@ -67,10 +68,11 @@ public class FindAdapter extends FixedRecyclerView.Adapter<FindAdapter.ViewHolde
         }
     }
 
-    public FindAdapter(Context context, List<Need> needList, User user) {
+    public FindAdapter(Context context, List<Need> needList, User user, boolean i) {
         mContext = context;
         mNeedlist = needList;
         mUser = user;
+        mi = i;
 
     }
 
@@ -83,16 +85,24 @@ public class FindAdapter extends FixedRecyclerView.Adapter<FindAdapter.ViewHolde
             public void onClick(View v) {
                 int position = holder.getAdapterPosition();
                 Need need = mNeedlist.get(position);
-                if (mUser.getUserId() == need.getUserId()) {
+                if (mi) {
+                    if (mUser.getUserId() == need.getUserId()) {
+                        Intent intent = new Intent(mContext, FindActivity_Me.class);
+                        Bundle mBundle = new Bundle();
+                        mBundle.putSerializable("need", need);
+                        intent.putExtras(mBundle);
+                        mContext.startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(mContext, FindActivity.class);
+                        Bundle mBundle = new Bundle();
+                        mBundle.putSerializable("user", mUser);
+                        mBundle.putSerializable("need", need);
+                        intent.putExtras(mBundle);
+                        mContext.startActivity(intent);
+                    }
+                } else {
                     Intent intent = new Intent(mContext, FindActivity_Me.class);
                     Bundle mBundle = new Bundle();
-                    mBundle.putSerializable("need", need);
-                    intent.putExtras(mBundle);
-                    mContext.startActivity(intent);
-                } else {
-                    Intent intent = new Intent(mContext, FindActivity.class);
-                    Bundle mBundle = new Bundle();
-                    mBundle.putSerializable("user", mUser);
                     mBundle.putSerializable("need", need);
                     intent.putExtras(mBundle);
                     mContext.startActivity(intent);

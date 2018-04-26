@@ -15,6 +15,7 @@ import com.lhf.join.Base.BaseFragment;
 import com.lhf.join.Bean.User;
 import com.lhf.join.R;
 import com.lhf.join.View.Collection.MyCollection;
+import com.lhf.join.View.Find.MyJoinNeedActivity;
 import com.lhf.join.View.User.NeedInformationActivity;
 import com.lhf.join.View.User.LoginActivity;
 import com.lhf.join.View.User.OrderInformationActivity;
@@ -41,6 +42,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     private LinearLayout btn_order;
     private LinearLayout btn_find;
     private LinearLayout btn_collect;
+    private LinearLayout btn_joinedneed;
     private String userId;
     public static final MediaType JSON=MediaType.parse("application/json; charset=utf-8");
 
@@ -56,6 +58,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         btn_order = view.findViewById(R.id.btn_order);
         btn_find = view.findViewById(R.id.btn_find);
         btn_collect = view.findViewById(R.id.btn_collect);
+        btn_joinedneed = view.findViewById(R.id.btn_joinedneed);
 
 
 
@@ -80,6 +83,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         btn_order.setOnClickListener(this);
         btn_find.setOnClickListener(this);
         btn_collect.setOnClickListener(this);
+        btn_joinedneed.setOnClickListener(this);
         userId = String.valueOf(user.getUserId());
         RefrshUser(userId);
 
@@ -185,6 +189,12 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                 mBundle.putSerializable("user",user);
                 intent3.putExtras(mBundle);
                 startActivity(intent3);
+                break;
+            case R.id.btn_joinedneed:
+                Intent intent4=new Intent(mContext,MyJoinNeedActivity.class);
+                mBundle.putSerializable("user",user);
+                intent4.putExtras(mBundle);
+                startActivity(intent4);
                 break;
 
 

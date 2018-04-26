@@ -142,6 +142,30 @@
                     android:layout_height="30dp" />
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/btn_joinedneed"
+                android:gravity="center"
+                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_weight="1"
+                    android:src="@drawable/joinneed"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp" />
+                <TextView
+                    android:textSize="15sp"
+                    android:layout_weight="4"
+                    android:layout_gravity="center"
+                    android:text="@string/join_need"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+                <ImageView
+                    android:src="@drawable/jian"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp" />
+            </LinearLayout>
+
 
             <LinearLayout
                 android:id="@+id/btn_logout"

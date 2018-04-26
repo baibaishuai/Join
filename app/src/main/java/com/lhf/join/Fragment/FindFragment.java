@@ -189,10 +189,12 @@ public class FindFragment extends BaseFragment{
         @Override
         protected String doInBackground(String... params) {
             Response response = null;
+            int method = 1;
             String results = null;
             JSONObject json=new JSONObject();
             try {
                 json.put("userId",params[1]);
+                json.put("method",method);
                 OkHttpClient okHttpClient = new OkHttpClient();
                 RequestBody requestBody = RequestBody.create(JSON, String.valueOf(json));
                 Request request = new Request.Builder()
@@ -232,7 +234,7 @@ public class FindFragment extends BaseFragment{
                     }
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.addItemDecoration(new DividerItemDecoration(mContext,DividerItemDecoration.VERTICAL));
-                    FindAdapter adapter = new FindAdapter(mContext,mData,user);
+                    FindAdapter adapter = new FindAdapter(mContext,mData,user,true);
                     recyclerView.setNestedScrollingEnabled(false);
                     recyclerView.setAdapter(adapter);
 

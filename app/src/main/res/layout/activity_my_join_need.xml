@@ -19,12 +19,12 @@
             android:src="@drawable/back" />
         <TextView
             style="@style/title"
-            android:text="我的收藏"
+            android:text="加入的需求"
             />
 
     </LinearLayout>
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_collect"
+        android:id="@+id/rv_joinedneed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
