@@ -8,11 +8,11 @@ import okhttp3.MediaType;
  */
 
 public class Constant {
-    public static String URL = "http://192.168.1.106:8080/"; //511wifi IP地址
+//    public static String URL = "http://192.168.1.106:8080/"; //511wifi IP地址
 //    public static String URL = "http://192.168.1.108:8080/"; //511wifi IP地址
 
 //        public static String URL = "http://192.168.31.74:8080/"; //连寝室wifi IP地址
-//    public static String URL = "http://10.0.2.2:8080/"; //手机热点IP地址
+    public static String URL = "http://10.0.2.2:8080/"; //手机热点IP地址
     public static String URL_LOGIN  = URL+"Login_Servlet";
     public static String URL_Register = URL+"Register_Servlet";
     public static String URL_UpdateUser = URL+"UpdateUser_Servlet";
@@ -35,6 +35,6 @@ public class Constant {
     public static String URL_INSERTCOLLECTION = URL+"InsertCollection_Servlet";
     public static String URL_DELETECOLLECTION = URL+"DeleteCollection_Servlet";
     public static String URL_ISCOLLECTED = URL+"IsCollected_Servlet";
-
+    public static String URL_SEARCHCOLLECTSTADIUM = URL+"SearchCollectStadium_Servlet";
 
 }

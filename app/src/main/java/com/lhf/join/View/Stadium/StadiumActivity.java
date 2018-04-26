@@ -61,7 +61,8 @@ public class StadiumActivity extends AppCompatActivity {
     private RatingBar ratingBar;
     private Button btn_order;
     private User user;
-    private int collect = 0;
+    private boolean firstcollect = true;
+    private boolean firstcollect2 = true;
     private ToggleButton shineButton;
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
@@ -96,7 +97,6 @@ public class StadiumActivity extends AppCompatActivity {
     }
 
     private void initdata() {
-        shineButton.setChecked(true);
         user = (User) getIntent().getSerializableExtra("user");
         isCollectd(stadium.getStadiumId(), user.getUserId());
         System.out.println("userId:" + user.getUserId());
@@ -144,16 +144,14 @@ public class StadiumActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (buttonView.isChecked()) {
-                    if (collect == 1) {
+                    if (firstcollect) {
                         collect(stadium.getStadiumId(), user.getUserId(), true);
                     } else {
-
                     }
                 } else {
-                    if (collect == 1) {
+                    if (firstcollect2) {
                         collect(stadium.getStadiumId(), user.getUserId(), false);
                     } else {
-
                     }
                 }
             }
@@ -211,6 +209,8 @@ public class StadiumActivity extends AppCompatActivity {
                         Toast.makeText(StadiumActivity.this, "收藏成功", Toast.LENGTH_SHORT).show();
                     } else if (loginresult.equals("2")) {
                         Toast.makeText(StadiumActivity.this, "取消收藏", Toast.LENGTH_SHORT).show();
+                    } else if (loginresult.equals("3")) {
+
                     } else {
                         Toast.makeText(StadiumActivity.this, "系统异常", Toast.LENGTH_SHORT).show();
                     }
@@ -224,7 +224,6 @@ public class StadiumActivity extends AppCompatActivity {
     }
 
     private void isCollectd(int stadiunmId, int userId) {
-        collect = collect + 1;
         String SearchUrl = URL_ISCOLLECTED;
         new isCollectionAsyncTask().execute(SearchUrl, String.valueOf(stadiunmId), String.valueOf(userId));
     }
