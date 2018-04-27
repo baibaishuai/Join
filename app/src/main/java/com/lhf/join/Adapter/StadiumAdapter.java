@@ -17,6 +17,9 @@ import com.lhf.join.Bean.Stadium;
 import com.lhf.join.Bean.User;
 import com.lhf.join.R;
 import com.lhf.join.View.Stadium.StadiumActivity;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.io.Serializable;
 import java.util.List;
@@ -72,13 +75,24 @@ public class StadiumAdapter extends RecyclerView.Adapter<StadiumAdapter.ViewHold
     @Override
     public void onBindViewHolder(StadiumAdapter.ViewHolder holder, int position) {
         Stadium stadium = mStadiumlist.get(position);
-        Glide.with(mContext)
-                .load(stadium.getMainpicture())
-                .placeholder(R.drawable.loading)
-                .skipMemoryCache(true)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .error(R.drawable.error)
-                .into(holder.stadiumpicture);
+        ImageLoaderConfiguration configuration = ImageLoaderConfiguration.createDefault(mContext);
+        ImageLoader imageLoader = ImageLoader.getInstance();
+        ImageLoader.getInstance().init(configuration);
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .showImageOnFail(R.drawable.error) // 设置图片加载或解码过程中发生错误显示的图片
+                .showImageOnLoading(R.drawable.loading)
+                .resetViewBeforeLoading(false)  // default 设置图片在加载前是否重置、复位
+                .delayBeforeLoading(1000)  // 下载前的延迟时间
+                .build();
+        ImageLoader.getInstance().displayImage(stadium.getMainpicture(), holder.stadiumpicture,options);
+
+//        Glide.with(mContext)
+//                .load(stadium.getMainpicture())
+//                .placeholder(R.drawable.loading)
+//                .skipMemoryCache(true)
+//                .diskCacheStrategy(DiskCacheStrategy.NONE)
+//                .error(R.drawable.error)
+//                .into(holder.stadiumpicture);
         holder.stadiumname.setText(stadium.getStadiumname());
         holder.stadiumadress.setText(stadium.getAdress());
         holder.stadiumtype.setText("[" + stadium.getStadiumtype() + "]");

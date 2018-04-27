@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.lhf.join.Bean.User;
 import com.lhf.join.R;
 import com.lhf.join.View.MainActivity;

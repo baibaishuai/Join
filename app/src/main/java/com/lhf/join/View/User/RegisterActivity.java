@@ -15,6 +15,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.lhf.join.Bean.User;
 import com.lhf.join.R;
 
 import org.json.JSONException;
@@ -121,6 +122,7 @@ public class RegisterActivity extends AppCompatActivity {
         protected String doInBackground(String... params) {
             Response response = null;
             String results = null;
+            User user = new User();
             JSONObject json = new JSONObject();
             try {
                 json.put("username", params[1]);

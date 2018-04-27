@@ -57,7 +57,9 @@
         <activity android:name=".View.User.UpdatePassword" />
         <activity android:name=".View.Find.FindActivity_Me" />
         <activity android:name=".View.Collection.MyCollection" />
-        <activity android:name=".View.Find.MyJoinNeedActivity"></activity>
+        <activity android:name=".View.Find.MyJoinNeedActivity"/>
+        <activity android:name=".View.Find.JoinedNeedActivity"/>
+
     </application>
 
 </manifest>

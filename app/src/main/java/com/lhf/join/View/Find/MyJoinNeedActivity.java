@@ -1,5 +1,6 @@
 package com.lhf.join.View.Find;
 
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -50,10 +51,17 @@ public class MyJoinNeedActivity extends AppCompatActivity {
         initData();
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        initData();
+    }
+
     private void initView() {
         btn_back = findViewById(R.id.icon_back);
         recyclerView = findViewById(R.id.rv_joinedneed);
         layoutManager = new LinearLayoutManager(this);
+        getWindow().setStatusBarColor(Color.parseColor("#FF029ACC"));
 
     }
 

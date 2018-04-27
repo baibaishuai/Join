@@ -20,6 +20,7 @@ import com.lhf.join.Bean.User;
 import com.lhf.join.R;
 import com.lhf.join.View.Find.FindActivity;
 import com.lhf.join.View.Find.FindActivity_Me;
+import com.lhf.join.View.Find.JoinedNeedActivity;
 import com.lhf.join.View.FixedRecyclerView;
 import com.lhf.join.View.Stadium.StadiumActivity;
 
@@ -43,7 +44,6 @@ public class FindAdapter extends FixedRecyclerView.Adapter<FindAdapter.ViewHolde
     private Context mContext;
     private User mUser;
     private boolean mi;
-    //    private User mUser;
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -101,8 +101,9 @@ public class FindAdapter extends FixedRecyclerView.Adapter<FindAdapter.ViewHolde
                         mContext.startActivity(intent);
                     }
                 } else {
-                    Intent intent = new Intent(mContext, FindActivity_Me.class);
+                    Intent intent = new Intent(mContext, JoinedNeedActivity.class);
                     Bundle mBundle = new Bundle();
+                    mBundle.putSerializable("user", mUser);
                     mBundle.putSerializable("need", need);
                     intent.putExtras(mBundle);
                     mContext.startActivity(intent);

@@ -11,6 +11,7 @@ public class User implements Serializable{
     private String tel;
     private String myright;
 
+
     public String getRealname() {
         return realname;
     }
