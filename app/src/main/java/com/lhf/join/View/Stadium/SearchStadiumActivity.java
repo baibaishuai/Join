@@ -166,6 +166,7 @@ public class SearchStadiumActivity extends AppCompatActivity {
                         stadium.setMainpicture(URL_PICTURE + js.getString("mainpicture"));
                         stadium.setAdress(js.getString("adress"));
                         stadium.setNum(js.getString("num"));
+                        stadium.setOpentime(js.getString("opentime"));
                         mData.add(stadium);
                     }
                     List<Stadium> mData2 = new ArrayList<>();
@@ -182,6 +183,7 @@ public class SearchStadiumActivity extends AppCompatActivity {
                         stadium.setNum(mData.get(i).getNum());
                         stadium.setStadiumtype(mData.get(i).getStadiumtype());
                         stadium.setStadiumId(mData.get(i).getStadiumId());
+                        stadium.setOpentime(mData.get(i).getOpentime());
                         mData2.add(stadium);
                     }
                     recyclerView.setLayoutManager(layoutManager);

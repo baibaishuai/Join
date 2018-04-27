@@ -23,6 +23,9 @@ import com.lhf.join.Bean.Stadium;
 import com.lhf.join.Bean.User;
 import com.lhf.join.R;
 import com.lhf.join.View.Find.InsertNeedActivity;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.sackcentury.shinebuttonlib.ShineButton;
 
 import org.json.JSONArray;
@@ -55,8 +58,10 @@ public class StadiumActivity extends AppCompatActivity {
     private TextView tv_indoor;
     private TextView tv_aircondition;
     private TextView tv_adress;
+    private TextView tv_opentime;
     private Stadium stadium;
     private ImageView icon_back;
+    private ImageView icon_share;
     private ImageView icon_stadium;
     private RatingBar ratingBar;
     private Button btn_order;
@@ -80,6 +85,7 @@ public class StadiumActivity extends AppCompatActivity {
     private void initview() {
         tv = findViewById(R.id.tv_stadiumname);
         icon_back = findViewById(R.id.icon_back);
+        icon_share = findViewById(R.id.icon_share);
         icon_stadium = findViewById(R.id.icon_stadium);
         tv_stadiumname = findViewById(R.id.tv_stadiumname1);
         tv_type = findViewById(R.id.tv_changguan_type);
@@ -87,11 +93,11 @@ public class StadiumActivity extends AppCompatActivity {
         tv_num = findViewById(R.id.tv_num);
         tv_indoor = findViewById(R.id.tv_indoor);
         tv_aircondition = findViewById(R.id.tv_aircondition);
+        tv_opentime = findViewById(R.id.tv_opentime);
         tv_adress = findViewById(R.id.tv_adress);
         ratingBar = findViewById(R.id.ratbar);
         btn_order = findViewById(R.id.btn_order);
         shineButton = findViewById(R.id.po_image3);
-
         getWindow().setStatusBarColor(Color.parseColor("#FF029ACC"));
 
     }
@@ -109,26 +115,36 @@ public class StadiumActivity extends AppCompatActivity {
         tv.setText(stadium.getStadiumname());
         tv_stadiumname.setText(stadium.getStadiumname());
         tv_type.setText(stadium.getStadiumtype());
-        tv_area.setText("面积:" + stadium.getArea() + "平方米");
-        tv_num.setText("可容纳:" + stadium.getNum() + "人");
+        tv_area.setText(stadium.getArea() + "平方米");
+        tv_num.setText(stadium.getNum() + "人");
+        tv_opentime.setText(stadium.getOpentime());
         if (stadium.getIndoor() == 1) {
-            tv_indoor.setText("是否室内：是");
+            tv_indoor.setText(" 是");
         } else {
-            tv_indoor.setText("是否室内：否");
+            tv_indoor.setText(" 否");
         }
         if (stadium.getAircondition() == 1) {
-            tv_aircondition.setText("是否有空调：是");
+            tv_aircondition.setText(" 是");
         } else {
-            tv_aircondition.setText("是否有空调：否");
+            tv_aircondition.setText(" 否");
         }
-        tv_adress.setText("地址:" + stadium.getCity() + stadium.getAdress());
-        Glide.with(this)
-                .load(stadium.getMainpicture())
-                .placeholder(R.drawable.loading)
-                .skipMemoryCache(true)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .error(R.drawable.error)
-                .into(icon_stadium);
+        tv_adress.setText(stadium.getCity() + stadium.getAdress());
+        ImageLoaderConfiguration configuration = ImageLoaderConfiguration.createDefault(this);
+        ImageLoader.getInstance().init(configuration);
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .showImageOnFail(R.drawable.error) // 设置图片加载或解码过程中发生错误显示的图片
+                .showImageOnLoading(R.drawable.loading)
+                .resetViewBeforeLoading(false)  // default 设置图片在加载前是否重置、复位
+                .delayBeforeLoading(1000)  // 下载前的延迟时间
+                .build();
+        ImageLoader.getInstance().displayImage(stadium.getMainpicture(),icon_stadium,options);
+//        Glide.with(this)
+//                .load(stadium.getMainpicture())
+//                .placeholder(R.drawable.loading)
+//                .skipMemoryCache(true)
+//                .diskCacheStrategy(DiskCacheStrategy.NONE)
+//                .error(R.drawable.error)
+//                .into(icon_stadium);
         btn_order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -154,6 +170,13 @@ public class StadiumActivity extends AppCompatActivity {
                     } else {
                     }
                 }
+            }
+        });
+        icon_share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareText("分享场馆","123",stadium.getStadiumname());
+
             }
         });
 
@@ -274,6 +297,26 @@ public class StadiumActivity extends AppCompatActivity {
             } else {
                 System.out.println("结果为空");
             }
+        }
+    }
+
+    private void shareText(String dlgTitle, String subject, String content) {
+        if (content == null || "".equals(content)) {
+            return;
+        }
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        if (subject != null && !"".equals(subject)) {
+            intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        }
+
+        intent.putExtra(Intent.EXTRA_TEXT, content);
+
+        // 设置弹出框标题
+        if (dlgTitle != null && !"".equals(dlgTitle)) { // 自定义标题
+            startActivity(Intent.createChooser(intent, dlgTitle));
+        } else { // 系统默认标题
+            startActivity(intent);
         }
     }
 }

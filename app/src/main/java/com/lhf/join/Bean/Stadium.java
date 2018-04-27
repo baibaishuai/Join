@@ -13,6 +13,7 @@ public class Stadium implements Serializable {
     private int aircondition;
     private String mainpicture;
     private String adress;
+    private String opentime;
 
     public Stadium(String mainpicture, String stadiumname, String stadiumtype, String adress) {
         this.stadiumname = stadiumname;
@@ -22,6 +23,14 @@ public class Stadium implements Serializable {
     }
 
     public Stadium() {
+    }
+
+    public String getOpentime() {
+        return opentime;
+    }
+
+    public void setOpentime(String opentime) {
+        this.opentime = opentime;
     }
 
     public String getAdress() {

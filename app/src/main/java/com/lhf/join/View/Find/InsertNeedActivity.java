@@ -125,7 +125,13 @@ public class InsertNeedActivity extends AppCompatActivity implements View.OnClic
                 String remark = et_remark.getText().toString();
                 String time = c.get(Calendar.YEAR)+"年"+(c.get(Calendar.MONTH)+1)+"月"+c.get(Calendar.DAY_OF_MONTH)+"日";
                 time_all = tv_date.getText().toString()+tv_time.getText().toString();
-                InsertNeed(user.getUserId(),stadium_set.getStadiumId(),time_all,num_set,stadium_set.getStadiumtype(),remark);
+                if(!("".equals(tv_stadiumname.getText().toString()))
+                        && !(tv_date.getText().toString().equals(""))&& !(tv_num.getText().toString().equals(""))
+                        && !(tv_num.getText().toString().equals(""))&& !(tv_time.getText().toString().equals(""))){
+                    InsertNeed(user.getUserId(),stadium_set.getStadiumId(),time_all,num_set,stadium_set.getStadiumtype(),remark);
+                }else {
+                    Toast.makeText(this, "有选项为空！", Toast.LENGTH_SHORT).show();
+                }
 
         }
 
