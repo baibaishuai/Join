@@ -175,7 +175,7 @@ public class StadiumActivity extends AppCompatActivity {
         icon_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                shareText("分享场馆","123",stadium.getStadiumname());
+                shareText("分享场馆地址","123",stadium.getStadiumname()+"\n地址："+tv_adress.getText().toString());
 
             }
         });
